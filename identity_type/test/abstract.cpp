@@ -6,13 +6,12 @@
 // Home at http://www.boost.org/libs/utility/identity_type
 
 #include <boost/utility/identity_type.hpp>
-#include <boost/static_assert.hpp>
 #include <boost/type_traits/add_reference.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 
 //[abstract
 #define TMP_ASSERT(metafunction) \
-    BOOST_STATIC_ASSERT(metafunction::value)
+    static_assert(metafunction::value)
 
 template<typename T, bool b>
 struct abstract {

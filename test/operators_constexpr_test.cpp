@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #if !defined(BOOST_NO_CXX11_CONSTEXPR) && \
     (!defined(BOOST_MSVC) || (BOOST_MSVC >= 1922))
 #include <boost/operators.hpp>
-#include <boost/static_assert.hpp>
 
 namespace {
 
@@ -36,24 +35,24 @@ private:
 
 } // namespace
 
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(1) == Value(2)));
-BOOST_STATIC_ASSERT(Value(1) != Value(2));
-BOOST_STATIC_ASSERT(Value(1) < Value(2));
-BOOST_STATIC_ASSERT(Value(1) <= Value(2));
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(1) > Value(2)));
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(1) >= Value(2)));
+static_assert(!static_cast<bool>(Value(1) == Value(2)));
+static_assert(Value(1) != Value(2));
+static_assert(Value(1) < Value(2));
+static_assert(Value(1) <= Value(2));
+static_assert(!static_cast<bool>(Value(1) > Value(2)));
+static_assert(!static_cast<bool>(Value(1) >= Value(2)));
 
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(2) == Value(1)));
-BOOST_STATIC_ASSERT(Value(2) != Value(1));
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(2) < Value(1)));
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(2) <= Value(1)));
-BOOST_STATIC_ASSERT(Value(2) >  Value(1));
-BOOST_STATIC_ASSERT(Value(2) >= Value(1));
+static_assert(!static_cast<bool>(Value(2) == Value(1)));
+static_assert(Value(2) != Value(1));
+static_assert(!static_cast<bool>(Value(2) < Value(1)));
+static_assert(!static_cast<bool>(Value(2) <= Value(1)));
+static_assert(Value(2) >  Value(1));
+static_assert(Value(2) >= Value(1));
 
-BOOST_STATIC_ASSERT(Value(1) == Value(1));
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(1) != Value(1)));
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(1) < Value(1)));
-BOOST_STATIC_ASSERT(Value(1) <= Value(1));
-BOOST_STATIC_ASSERT(!static_cast<bool>(Value(1) > Value(1)));
-BOOST_STATIC_ASSERT(Value(1) >= Value(1));
+static_assert(Value(1) == Value(1));
+static_assert(!static_cast<bool>(Value(1) != Value(1)));
+static_assert(!static_cast<bool>(Value(1) < Value(1)));
+static_assert(Value(1) <= Value(1));
+static_assert(!static_cast<bool>(Value(1) > Value(1)));
+static_assert(Value(1) >= Value(1));
 #endif

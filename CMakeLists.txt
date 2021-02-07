@@ -22,7 +22,6 @@ target_link_libraries(boost_utility
         Boost::core
         Boost::io
         Boost::preprocessor
-        Boost::static_assert
         Boost::throw_exception
         Boost::type_traits
 )
