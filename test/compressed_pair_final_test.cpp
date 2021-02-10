@@ -6,7 +6,6 @@ Distributed under the Boost Software License, Version 1.0.
 (http://www.boost.org/LICENSE_1_0.txt)
 */
 #include <boost/config.hpp>
-#if !defined(BOOST_NO_CXX11_FINAL)
 #include <boost/compressed_pair.hpp>
 #include <boost/core/lightweight_test.hpp>
 
@@ -21,16 +20,6 @@ struct type2 final {
         return false;
     }
 };
-
-#if !defined(BOOST_IS_FINAL)
-namespace boost {
-
-template<>
-struct is_final<type2>
-    : true_type { };
-
-} /* boost*/
-#endif
 
 template<class T1, class T2>
 void test()
@@ -47,9 +36,3 @@ int main()
     test<type2, type2>();
     return boost::report_errors();
 }
-#else
-int main()
-{
-    return 0;
-}
-#endif

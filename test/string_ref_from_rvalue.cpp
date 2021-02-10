@@ -13,10 +13,6 @@
 
 #include <boost/utility/string_ref.hpp>
 
-#if defined(BOOST_NO_CXX11_RVALUE_REFERENCES) || defined(BOOST_NO_CXX11_DELETED_FUNCTIONS)
-#error "Unsupported test"
-#endif
-
 std::string makeatemp() { return "abc"; }
 
 int main()

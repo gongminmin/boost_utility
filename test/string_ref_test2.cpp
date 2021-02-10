@@ -256,10 +256,8 @@ void to_string ( const char *arg ) {
     str2 = sr1.to_string ();
     BOOST_TEST ( str1 == str2 );
 
-#ifndef BOOST_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS
     std::string str3 = static_cast<std::string> ( sr1 );
     BOOST_TEST ( str1 == str3 );
-#endif
     }
 
 void compare ( const char *arg ) {

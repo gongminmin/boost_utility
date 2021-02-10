@@ -29,11 +29,6 @@
 #include <string>
 #include <iosfwd>
 
-#if defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) || (defined(BOOST_GCC) && ((BOOST_GCC+0) / 100) <= 406)
-// GCC 4.6 cannot handle a defaulted function with noexcept specifier
-#define BOOST_STRING_REF_NO_CXX11_DEFAULTED_NOEXCEPT_FUNCTIONS
-#endif
-
 namespace boost {
 
     namespace detail {
@@ -61,78 +56,60 @@ namespace boost {
         typedef const_reverse_iterator reverse_iterator;
         typedef std::size_t size_type;
         typedef std::ptrdiff_t difference_type;
-        static BOOST_CONSTEXPR_OR_CONST size_type npos = size_type(-1);
+        static constexpr size_type npos = size_type(-1);
 
         // construct/copy
-        BOOST_CONSTEXPR basic_string_ref () BOOST_NOEXCEPT
+        constexpr basic_string_ref () noexcept
             : ptr_(NULL), len_(0) {}
 
         // by defaulting these functions, basic_string_ref becomes
         //  trivially copy/move constructible.
-        BOOST_CONSTEXPR basic_string_ref (const basic_string_ref &rhs) BOOST_NOEXCEPT
-#ifndef BOOST_STRING_REF_NO_CXX11_DEFAULTED_NOEXCEPT_FUNCTIONS
-            = default;
-#else
-            : ptr_(rhs.ptr_), len_(rhs.len_) {}
-#endif
+        constexpr basic_string_ref (const basic_string_ref &rhs) noexcept = default;
 
-        basic_string_ref& operator=(const basic_string_ref &rhs) BOOST_NOEXCEPT
-#ifndef BOOST_STRING_REF_NO_CXX11_DEFAULTED_NOEXCEPT_FUNCTIONS
-            = default;
-#else
-            {
-            ptr_ = rhs.ptr_;
-            len_ = rhs.len_;
-            return *this;
-            }
-#endif
+        basic_string_ref& operator=(const basic_string_ref &rhs) noexcept = default;
 
-        basic_string_ref(const charT* str) BOOST_NOEXCEPT
+        basic_string_ref(const charT* str) noexcept
             : ptr_(str), len_(traits::length(str)) {}
 
         template<typename Allocator>
         basic_string_ref(const std::basic_string<charT, traits, Allocator>& str)
             : ptr_(str.data()), len_(str.length()) {}
 
-// #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES) && !defined(BOOST_NO_CXX11_DELETED_FUNCTIONS)
 //         // Constructing a string_ref from a temporary string is a bad idea
 //         template<typename Allocator>
 //         basic_string_ref(      std::basic_string<charT, traits, Allocator>&&)
 //             = delete;
-// #endif
 
-        BOOST_CONSTEXPR basic_string_ref(const charT* str, size_type len) BOOST_NOEXCEPT
+        constexpr basic_string_ref(const charT* str, size_type len) noexcept
             : ptr_(str), len_(len) {}
 
-#ifndef BOOST_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS
         template<typename Allocator>
         explicit operator std::basic_string<charT, traits, Allocator>() const {
             return std::basic_string<charT, traits, Allocator> ( begin(), end());
             }
-#endif
 
         std::basic_string<charT, traits> to_string () const {
             return std::basic_string<charT, traits> ( begin(), end());
             }
 
         // iterators
-        BOOST_CONSTEXPR const_iterator   begin() const { return ptr_; }
-        BOOST_CONSTEXPR const_iterator  cbegin() const { return ptr_; }
-        BOOST_CONSTEXPR const_iterator     end() const { return ptr_ + len_; }
-        BOOST_CONSTEXPR const_iterator    cend() const { return ptr_ + len_; }
+        constexpr const_iterator   begin() const { return ptr_; }
+        constexpr const_iterator  cbegin() const { return ptr_; }
+        constexpr const_iterator     end() const { return ptr_ + len_; }
+        constexpr const_iterator    cend() const { return ptr_ + len_; }
                 const_reverse_iterator  rbegin() const { return const_reverse_iterator (end()); }
                 const_reverse_iterator crbegin() const { return const_reverse_iterator (end()); }
                 const_reverse_iterator    rend() const { return const_reverse_iterator (begin()); }
                 const_reverse_iterator   crend() const { return const_reverse_iterator (begin()); }
 
         // capacity
-        BOOST_CONSTEXPR size_type size()     const { return len_; }
-        BOOST_CONSTEXPR size_type length()   const { return len_; }
-        BOOST_CONSTEXPR size_type max_size() const { return len_; }
-        BOOST_CONSTEXPR bool empty()         const { return len_ == 0; }
+        constexpr size_type size()     const { return len_; }
+        constexpr size_type length()   const { return len_; }
+        constexpr size_type max_size() const { return len_; }
+        constexpr bool empty()         const { return len_ == 0; }
 
         // element access
-        BOOST_CONSTEXPR const charT& operator[](size_type pos) const { return ptr_[pos]; }
+        constexpr const charT& operator[](size_type pos) const { return ptr_[pos]; }
 
         const charT& at(size_t pos) const {
             if ( pos >= len_ )
@@ -140,9 +117,9 @@ namespace boost {
             return ptr_[pos];
             }
 
-        BOOST_CONSTEXPR const charT& front() const { return ptr_[0]; }
-        BOOST_CONSTEXPR const charT& back()  const { return ptr_[len_-1]; }
-        BOOST_CONSTEXPR const charT* data()  const { return ptr_; }
+        constexpr const charT& front() const { return ptr_[0]; }
+        constexpr const charT& back()  const { return ptr_[len_-1]; }
+        constexpr const charT* data()  const { return ptr_; }
 
         // modifiers
         void clear() { len_ = 0; }

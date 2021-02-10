@@ -16,7 +16,6 @@
 #include <boost/preprocessor/repetition/enum_params.hpp>
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 #include <type_traits>
-#include <boost/core/enable_if.hpp>
 
 
 //  Base-from-member arity configuration macro  ------------------------------//
@@ -94,7 +93,6 @@ struct is_related
 
 // Contributed by Daryle Walker, based on a work-around by Luc Danton
 
-#ifndef BOOST_NO_CXX11_VARIADIC_TEMPLATES
 template<typename ...T>
 struct enable_if_unrelated
     : public ::std::enable_if_c<true>
@@ -102,9 +100,8 @@ struct enable_if_unrelated
 
 template<typename T, typename U, typename ...U2>
 struct enable_if_unrelated<T, U, U2...>
-    : public ::boost::disable_if< ::boost::detail::is_related<T, U> >
+    : public ::boost::enable_if< !::boost::detail::is_related<T, U> >
 {};
-#endif
 
 }  // namespace boost::detail
 
@@ -124,15 +121,12 @@ class base_from_member
 protected:
     MemberType  member;
 
-#if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES) && \
-    !defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) && \
-    !defined(BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS) && \
-    !(defined(__GNUC__) && (__GNUC__ == 4) && (__GNUC_MINOR__ < 4))
+#if !(defined(__GNUC__) && (__GNUC__ == 4) && (__GNUC_MINOR__ < 4))
     template <typename ...T, typename EnableIf = typename
      ::boost::detail::enable_if_unrelated<base_from_member, T...>::type>
-    explicit BOOST_CONSTEXPR base_from_member( T&& ...x )
-        BOOST_NOEXCEPT_IF( BOOST_NOEXCEPT_EXPR(::new ((void*) 0) MemberType(
-         static_cast<T&&>(x)... )) )  // no std::is_nothrow_constructible...
+    explicit constexpr base_from_member( T&& ...x )
+        noexcept( ::new ((void*) 0) MemberType(
+         static_cast<T&&>(x)... ) )  // no std::is_nothrow_constructible...
         : member( static_cast<T&&>(x)... )     // ...nor std::forward needed
         {}
 #else
@@ -153,8 +147,8 @@ class base_from_member<MemberType&, UniqueID>
 protected:
     MemberType& member;
 
-    explicit BOOST_CONSTEXPR base_from_member( MemberType& x )
-        BOOST_NOEXCEPT
+    explicit constexpr base_from_member( MemberType& x )
+        noexcept
         : member( x )
         {}
 

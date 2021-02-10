@@ -266,47 +266,33 @@ public:
         typedef custom_allocator<U> other;
         };
 
-    custom_allocator() BOOST_NOEXCEPT {}
+    custom_allocator() noexcept {}
     template <typename U>
-    custom_allocator(custom_allocator<U> const&) BOOST_NOEXCEPT {}
+    custom_allocator(custom_allocator<U> const&) noexcept {}
 
     pointer allocate(size_type n) const {
         return static_cast<pointer>(std::malloc(sizeof(value_type) * n));
         }
-    void deallocate(pointer p, size_type) const BOOST_NOEXCEPT {
+    void deallocate(pointer p, size_type) const noexcept {
         std::free(p);
         }
 
-    pointer address(reference value) const BOOST_NOEXCEPT {
+    pointer address(reference value) const noexcept {
         return &value;
         }
 
-    const_pointer address(const_reference value) const BOOST_NOEXCEPT {
+    const_pointer address(const_reference value) const noexcept {
         return &value;
         }
 
-    BOOST_CONSTEXPR size_type max_size() const BOOST_NOEXCEPT {
+    constexpr size_type max_size() const noexcept {
         return (~(size_type)0u) / sizeof(value_type);
         }
 
-#if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
-#if !defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
     template <class U, class... Args>
     void construct(U* ptr, Args&&... args) const {
         ::new((void*)ptr) U(static_cast<Args&&>(args)...);
         }
-#else
-    template <class U, class V>
-    void construct(U* ptr, V&& value) const {
-        ::new((void*)ptr) U(static_cast<V&&>(value));
-        }
-#endif
-#else
-    template <class U, class V>
-    void construct(U* ptr, const V& value) const {
-        ::new((void*)ptr) U(value);
-        }
-#endif
 
     template <class U>
     void construct(U* ptr) const {
@@ -321,11 +307,11 @@ public:
     };
 
 template <typename T, typename U>
-BOOST_CONSTEXPR bool operator==(const custom_allocator<T> &, const custom_allocator<U> &) BOOST_NOEXCEPT {
+constexpr bool operator==(const custom_allocator<T> &, const custom_allocator<U> &) noexcept {
     return true;
     }
 template <typename T, typename U>
-BOOST_CONSTEXPR bool operator!=(const custom_allocator<T> &, const custom_allocator<U> &) BOOST_NOEXCEPT {
+constexpr bool operator!=(const custom_allocator<T> &, const custom_allocator<U> &) noexcept {
     return false;
     }
 
@@ -343,10 +329,8 @@ void to_string ( const char *arg ) {
     std::basic_string<char, std::char_traits<char>, custom_allocator<char> > str3 = sr1.to_string(custom_allocator<char>());
     BOOST_TEST ( std::strcmp(str1.c_str(), str3.c_str()) == 0 );
 
-#ifndef BOOST_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS
     std::string str4 = static_cast<std::string> ( sr1 );
     BOOST_TEST ( str1 == str4 );
-#endif
     }
 
 void compare ( const char *arg ) {

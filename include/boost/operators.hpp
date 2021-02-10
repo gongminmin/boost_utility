@@ -108,11 +108,11 @@
 #   pragma warning( disable : 4284 ) // complaint about return type of
 #endif                               // operator-> not begin a UDT
 
-// Define BOOST_OPERATORS_CONSTEXPR to be like BOOST_CONSTEXPR but empty under MSVC < v19.22
+// Define BOOST_OPERATORS_CONSTEXPR to be like constexpr but empty under MSVC < v19.22
 #if BOOST_WORKAROUND(BOOST_MSVC, < 1922)
 #define BOOST_OPERATORS_CONSTEXPR
 #else
-#define BOOST_OPERATORS_CONSTEXPR BOOST_CONSTEXPR
+#define BOOST_OPERATORS_CONSTEXPR constexpr
 #endif
 
 // In this section we supply the xxxx1 and xxxx2 forms of the operator

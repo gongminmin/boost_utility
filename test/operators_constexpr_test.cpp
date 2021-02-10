@@ -7,8 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 */
 
 #include <boost/config.hpp>
-#if !defined(BOOST_NO_CXX11_CONSTEXPR) && \
-    (!defined(BOOST_MSVC) || (BOOST_MSVC >= 1922))
+#if (!defined(BOOST_MSVC) || (BOOST_MSVC >= 1922))
 #include <boost/operators.hpp>
 
 namespace {
