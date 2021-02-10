@@ -6,8 +6,8 @@
 // Home at http://www.boost.org/libs/utility/identity_type
 
 #include <boost/utility/identity_type.hpp>
-#include <boost/type_traits/is_const.hpp>
 #include <map>
+#include <type_traits>
 
 //[paren
 #define TMP_ASSERT_PAREN(parenthesized_metafunction) \
@@ -18,16 +18,16 @@
     static_assert(metafunction::value)
 
 // Specify only extra parenthesis `((...))`.
-TMP_ASSERT_PAREN((boost::is_const<std::map<int, char> const>));
+TMP_ASSERT_PAREN((std::is_const<std::map<int, char> const>));
 
 // Specify both the extra parenthesis `((...))` and `BOOST_IDENTITY_TYPE` macro.
-TMP_ASSERT(BOOST_IDENTITY_TYPE((boost::is_const<std::map<int, char> const>)));
+TMP_ASSERT(BOOST_IDENTITY_TYPE((std::is_const<std::map<int, char> const>)));
 //]
 
 //[paren_always
-TMP_ASSERT_PAREN((boost::is_const<int const>)); // Always extra `((...))`.
+TMP_ASSERT_PAREN((std::is_const<int const>)); // Always extra `((...))`.
 
-TMP_ASSERT(boost::is_const<int const>); // No extra `((...))` and no macro.
+TMP_ASSERT(std::is_const<int const>); // No extra `((...))` and no macro.
 //]
 
 int main() { return 0; }

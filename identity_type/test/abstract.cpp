@@ -6,8 +6,7 @@
 // Home at http://www.boost.org/libs/utility/identity_type
 
 #include <boost/utility/identity_type.hpp>
-#include <boost/type_traits/add_reference.hpp>
-#include <boost/type_traits/remove_reference.hpp>
+#include <type_traits>
 
 //[abstract
 #define TMP_ASSERT(metafunction) \
@@ -20,9 +19,9 @@ struct abstract {
 };
 
 TMP_ASSERT(
-    boost::remove_reference<            // Add and remove
+    std::remove_reference<            // Add and remove
         BOOST_IDENTITY_TYPE((           // reference for
-            boost::add_reference<       // abstract type.
+            std::add_lvalue_reference<       // abstract type.
                 abstract<int, true>
             >::type
         ))

@@ -16,8 +16,6 @@
 #include <boost/utility/binary.hpp>
 #include <boost/utility/identity_type.hpp>
 
-#include <boost/core/addressof.hpp>
-#include <boost/core/enable_if.hpp>
 #include <boost/core/checked_delete.hpp>
 #include <boost/core/noncopyable.hpp>
 

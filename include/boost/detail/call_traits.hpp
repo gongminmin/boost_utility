@@ -23,9 +23,7 @@
 #endif
 #include <cstddef>
 
-#include <boost/type_traits/is_arithmetic.hpp>
-#include <boost/type_traits/is_enum.hpp>
-#include <boost/type_traits/is_pointer.hpp>
+#include <type_traits>
 #include <boost/detail/workaround.hpp>
 
 namespace boost{
@@ -85,9 +83,9 @@ public:
    // of ct_imp to handle the logic. (JM)
    typedef typename boost::detail::ct_imp<
       T,
-      ::boost::is_pointer<T>::value,
-      ::boost::is_arithmetic<T>::value,
-      ::boost::is_enum<T>::value
+      ::std::is_pointer<T>::value,
+      ::std::is_arithmetic<T>::value,
+      ::std::is_enum<T>::value
    >::param_type param_type;
 };
 

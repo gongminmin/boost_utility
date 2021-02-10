@@ -25,12 +25,7 @@
 #define BOOST_OB_COMPRESSED_PAIR_HPP
 
 #include <algorithm>
-#ifndef BOOST_OBJECT_TYPE_TRAITS_HPP
-#include <boost/type_traits/object_traits.hpp>
-#endif
-#ifndef BOOST_SAME_TRAITS_HPP
-#include <boost/type_traits/same_traits.hpp>
-#endif
+#include <type_traits>
 #ifndef BOOST_CALL_TRAITS_HPP
 #include <boost/call_traits.hpp>
 #endif
@@ -403,7 +398,7 @@ template <class T1, class T2>
 struct compressed_pair_traits
 {
 private:
-   typedef compressed_pair_chooser<is_empty<T1>::value, is_empty<T2>::value, is_same<T1,T2>::value> chooser;
+   typedef compressed_pair_chooser<std::is_empty<T1>::value, std::is_empty<T2>::value, std::is_same<T1,T2>::value> chooser;
    typedef typename chooser::template rebind<T1, T2> bound_type;
 public:
    typedef typename bound_type::type type;

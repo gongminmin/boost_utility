@@ -99,7 +99,6 @@
 
 #include <boost/config.hpp>
 #include <boost/detail/workaround.hpp>
-#include <boost/core/addressof.hpp>
 
 #if defined(__sgi) && !defined(__GNUC__)
 #   pragma set woff 1234
@@ -311,7 +310,7 @@ struct dereferenceable : B
 {
   P operator->() const
   {
-    return ::boost::addressof(*static_cast<const T&>(*this));
+    return ::std::addressof(*static_cast<const T&>(*this));
   }
 };
 
